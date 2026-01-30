@@ -573,7 +573,7 @@
   <button id="toggle-edit">添加链接</button>
   
   <footer>
-    <p>&copy; 2024 Quick Nav. 极简导航工具</p>
+    <p>&copy; 2026 Quick Nav. 极简导航工具</p>
     <nav>
       <a href="#" onclick="showAbout()">关于</a>
       <a href="#" onclick="showHelp()">帮助</a>
@@ -672,6 +672,9 @@
         statusText.className = "login-status-text";
         logoutBtn.style.display = "none";
       }
+      
+      // 更新链接显示（重新渲染以显示/隐藏操作按钮）
+      renderAllLinks(document.getElementById('search-input').value);
     }
     
     // 打开登录表单
@@ -708,7 +711,7 @@
       alert("已退出登录");
     }
     
-    // 检查登录状态
+    // 检查登录状态（用于删除操作）
     function checkLoginForDelete() {
       if (!isLoggedIn) {
         alert("请先登录才能进行删除操作！");
@@ -749,51 +752,65 @@
       
       // 渲染链接
       filteredLinks.forEach((link, index) => {
-        const linkCard = document.createElement('a');
-        linkCard.href = link.url;
-        linkCard.target = "_blank";
-        linkCard.className = "link-card";
-        linkCard.rel = "noopener noreferrer";
+        // 创建链接容器（使用div而不是a，因为要包含操作按钮）
+        const linkContainer = document.createElement('div');
+        linkContainer.className = "link-card";
         
-        // 创建链接内容
-        linkCard.innerHTML = `
+        // 创建链接部分
+        const linkAnchor = document.createElement('a');
+        linkAnchor.href = link.url;
+        linkAnchor.target = "_blank";
+        linkAnchor.style.textDecoration = "none";
+        linkAnchor.style.color = "inherit";
+        linkAnchor.style.width = "100%";
+        linkAnchor.style.display = "flex";
+        linkAnchor.style.flexDirection = "column";
+        linkAnchor.style.alignItems = "center";
+        linkAnchor.rel = "noopener noreferrer";
+        
+        linkAnchor.innerHTML = `
           <div class="link-icon">
             <i class="${link.icon}"></i>
           </div>
           <div class="link-title">${link.title}</div>
         `;
         
-        // 如果已登录，添加操作按钮
+        // 创建操作按钮
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = "link-actions";
+        
+        const editBtn = document.createElement('div');
+        editBtn.className = "edit-btn";
+        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+        editBtn.title = "编辑链接";
+        editBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openEditForm(index, link);
+        });
+        
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = "delete-btn";
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.title = "删除链接";
+        deleteBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openDeleteConfirm(index, link);
+        });
+        
+        actionsDiv.appendChild(editBtn);
+        actionsDiv.appendChild(deleteBtn);
+        
+        // 组装链接卡片
+        linkContainer.appendChild(linkAnchor);
+        
+        // 只有登录后才显示操作按钮
         if (isLoggedIn) {
-          const actionsDiv = document.createElement('div');
-          actionsDiv.className = "link-actions";
-          
-          const editBtn = document.createElement('div');
-          editBtn.className = "edit-btn";
-          editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-          editBtn.title = "编辑链接";
-          editBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            openEditForm(index, link);
-          });
-          
-          const deleteBtn = document.createElement('div');
-          deleteBtn.className = "delete-btn";
-          deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-          deleteBtn.title = "删除链接";
-          deleteBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            openDeleteConfirm(index, link);
-          });
-          
-          actionsDiv.appendChild(editBtn);
-          actionsDiv.appendChild(deleteBtn);
-          linkCard.appendChild(actionsDiv);
+          linkContainer.appendChild(actionsDiv);
         }
         
-        linkGrid.appendChild(linkCard);
+        linkGrid.appendChild(linkContainer);
       });
     }
     
@@ -805,6 +822,13 @@
     
     // 打开编辑表单
     function openEditForm(index, link) {
+      // 检查登录状态
+      if (!isLoggedIn) {
+        alert("请先登录才能编辑链接！");
+        openLoginForm();
+        return;
+      }
+      
       const editForm = document.getElementById('edit-form');
       
       // 填充表单数据
@@ -867,6 +891,13 @@
         toggleEditBtn.textContent = '添加链接';
         toggleEditBtn.style.backgroundColor = 'var(--primary-color)';
       } else {
+        // 检查登录状态
+        if (!isLoggedIn) {
+          alert("请先登录才能添加链接！");
+          openLoginForm();
+          return;
+        }
+        
         // 清空表单
         document.getElementById('link-form').reset();
         document.getElementById('edit-index').value = '-1';
@@ -946,7 +977,7 @@
     
     // 显示帮助信息
     function showHelp() {
-      alert("使用帮助：\n\n1. 点击链接可以快速访问网站\n2. 点击右下角'添加链接'可以添加新链接\n3. 登录后可以对链接进行编辑和删除\n4. 在搜索框中输入关键词可以快速查找链接\n5. 默认密码：admin123");
+      alert("使用帮助：\n\n1. 点击链接可以快速访问网站\n2. 点击右下角'添加链接'可以添加新链接（需要先登录）\n3. 登录后可以对链接进行编辑和删除\n4. 在搜索框中输入关键词可以快速查找链接\n5. 默认密码：admin123");
     }
   </script>
 </body>
