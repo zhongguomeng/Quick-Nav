@@ -38,6 +38,9 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 var(--spacing-md);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     
     /* 头部样式 */
@@ -55,57 +58,37 @@
       letter-spacing: -0.5px;
     }
     
-    /* 导航样式 */
-    nav ul {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      list-style: none;
-      margin-bottom: var(--spacing-lg);
-      padding: 0;
+    /* 搜索框样式 */
+    #search-box {
+      max-width: 500px;
+      margin: 0 auto var(--spacing-lg);
     }
     
-    nav ul li {
-      margin: var(--spacing-sm);
-    }
-    
-    nav ul li a {
-      display: inline-block;
-      padding: var(--spacing-sm) var(--spacing-md);
-      color: var(--text-light);
-      text-decoration: none;
+    #search-input {
+      width: 100%;
+      padding: var(--spacing-md);
+      border: 1px solid var(--gray-color);
       border-radius: var(--border-radius);
+      font-size: 1rem;
       transition: all 0.2s ease;
-      font-weight: 500;
     }
     
-    nav ul li a:hover {
-      color: var(--accent-color);
-      background-color: rgba(52, 152, 219, 0.05);
+    #search-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     }
     
     /* 主内容区样式 */
     main {
+      flex: 1;
       margin-bottom: var(--spacing-lg);
-    }
-    
-    section {
-      margin-bottom: var(--spacing-lg);
-    }
-    
-    .category-title {
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--primary-color);
-      margin-bottom: var(--spacing-md);
-      padding-bottom: var(--spacing-sm);
-      border-bottom: 1px solid var(--gray-color);
     }
     
     /* 链接网格样式 */
     .link-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: var(--spacing-md);
       margin-top: var(--spacing-md);
     }
@@ -123,6 +106,7 @@
       color: var(--text-color);
       box-shadow: var(--shadow);
       transition: all 0.2s ease;
+      height: 100%;
     }
     
     .link-card:hover {
@@ -144,6 +128,8 @@
     .link-title {
       font-weight: 500;
       margin-bottom: var(--spacing-sm);
+      word-break: break-word;
+      width: 100%;
     }
     
     /* 编辑和删除按钮 */
@@ -201,7 +187,7 @@
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
       z-index: 1000;
       width: 90%;
-      max-width: 500px;
+      max-width: 400px;
       display: none;
     }
     
@@ -209,6 +195,7 @@
       margin-bottom: var(--spacing-md);
       color: var(--primary-color);
       font-weight: 500;
+      text-align: center;
     }
     
     #link-form {
@@ -216,8 +203,7 @@
       flex-direction: column;
     }
     
-    #link-form input,
-    #link-form select {
+    #link-form input {
       padding: var(--spacing-md);
       margin-bottom: var(--spacing-md);
       border: 1px solid var(--gray-color);
@@ -226,8 +212,7 @@
       transition: border-color 0.2s ease;
     }
     
-    #link-form input:focus,
-    #link-form select:focus {
+    #link-form input:focus {
       outline: none;
       border-color: var(--accent-color);
     }
@@ -323,6 +308,11 @@
     
     .login-status-text {
       color: var(--text-light);
+      cursor: pointer;
+    }
+    
+    .login-status-text:hover {
+      color: var(--accent-color);
     }
     
     .login-status-text.logged-in {
@@ -364,17 +354,19 @@
     #delete-confirm h3 {
       margin-bottom: var(--spacing-md);
       color: var(--danger-color);
+      text-align: center;
     }
     
     #delete-confirm p {
       margin-bottom: var(--spacing-lg);
       color: var(--text-color);
+      text-align: center;
     }
     
     .confirm-buttons {
       display: flex;
       gap: var(--spacing-md);
-      justify-content: flex-end;
+      justify-content: center;
     }
     
     .confirm-buttons button {
@@ -385,6 +377,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
+      min-width: 80px;
     }
     
     #confirm-delete-btn {
@@ -429,6 +422,14 @@
       box-shadow: var(--shadow-hover);
     }
     
+    /* 空状态提示 */
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+    
     /* 页脚样式 */
     footer {
       text-align: center;
@@ -464,20 +465,10 @@
         font-size: 2rem;
       }
       
-      nav ul {
-        justify-content: flex-start;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: var(--spacing-sm);
-      }
-      
-      nav ul li {
-        margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
-      }
-      
       #toggle-edit {
         bottom: var(--spacing-md);
         right: var(--spacing-md);
+        padding: var(--spacing-md);
       }
       
       #login-status {
@@ -495,6 +486,7 @@
     @media (max-width: 480px) {
       .link-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
       }
       
       body {
@@ -504,6 +496,16 @@
       .link-card {
         padding: var(--spacing-md) var(--spacing-sm);
       }
+      
+      header h1 {
+        font-size: 1.8rem;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -511,49 +513,29 @@
 <body>
   <!-- 登录状态指示器 -->
   <div id="login-status">
-    <span id="login-status-text" class="login-status-text">未登录</span>
-    <button id="login-btn" style="display: none;">登录</button>
+    <span id="login-status-text" class="login-status-text">未登录 (点击登录)</span>
     <button id="logout-btn" style="display: none;">退出登录</button>
   </div>
   
   <header>
-    <h1>Quick  Nav</h1>
+    <h1>Quick Nav</h1>
   </header>
-  <nav>
-    <ul>
-      <li><a href="#ai-search">AI搜索</a></li>
-      <li><a href="#social">社交媒体</a></li>
-      <li><a href="#tools">实用工具</a></li>
-      <li><a href="#tech-news">科技资讯</a></li>
-      <li><a href="#cloud-storage">云存储</a></li>
-      <li><a href="#email">电子邮箱</a></li>
-    </ul>
-  </nav>
+  
+  <!-- 搜索框 -->
+  <div id="search-box">
+    <input type="text" id="search-input" placeholder="搜索链接...">
+  </div>
+  
+  <!-- 主内容区 -->
   <main>
-    <section id="ai-search">
-      <h2 class="category-title">AI搜索</h2>
-      <div class="link-grid"></div>
-    </section>
-    <section id="social">
-      <h2 class="category-title">社交媒体</h2>
-      <div class="link-grid"></div>
-    </section>
-    <section id="tools">
-      <h2 class="category-title">实用工具</h2>
-      <div class="link-grid"></div>
-    </section>
-    <section id="tech-news">
-      <h2 class="category-title">科技资讯</h2>
-      <div class="link-grid"></div>
-    </section>
-    <section id="cloud-storage">
-      <h2 class="category-title">云存储</h2>
-      <div class="link-grid"></div>
-    </section>
-    <section id="email">
-      <h2 class="category-title">电子邮箱</h2>
-      <div class="link-grid"></div>
-    </section>
+    <div class="link-grid" id="main-link-grid">
+      <!-- 链接将在这里动态生成 -->
+    </div>
+    
+    <!-- 空状态提示 -->
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <p>还没有添加任何链接，点击右下角的"添加链接"按钮开始吧！</p>
+    </div>
   </main>
   
   <!-- 登录表单 -->
@@ -570,18 +552,9 @@
     <h2>添加/编辑链接</h2>
     <form id="link-form">
       <input type="password" id="edit-password" name="edit_password" placeholder="编辑密码" required>
-      <select id="category" name="category" required>
-        <option value="">选择类别</option>
-        <option value="ai-search">AI搜索</option>
-        <option value="social">社交媒体</option>
-        <option value="tools">实用工具</option>
-        <option value="tech-news">科技资讯</option>
-        <option value="cloud-storage">云存储</option>
-        <option value="email">电子邮箱</option>
-      </select>
-      <input type="text" id="title" name="title" placeholder="标题" required>
-      <input type="url" id="url" name="url" placeholder="URL" required>
-      <input type="text" id="icon" name="icon" placeholder="图标类名" required>
+      <input type="text" id="title" name="title" placeholder="链接标题" required>
+      <input type="url" id="url" name="url" placeholder="链接地址 (https://...)" required>
+      <input type="text" id="icon" name="icon" placeholder="图标类名 (如: fas fa-home)" required>
       <input type="hidden" id="edit-index" value="-1">
       <button type="submit">保存</button>
     </form>
@@ -597,63 +570,34 @@
     </div>
   </div>
   
-  <button id="toggle-edit">编辑模式</button>
+  <button id="toggle-edit">添加链接</button>
   
   <footer>
-    <p>&copy; 2023 WebNav Hub. 保留所有权利。</p>
+    <p>&copy; 2024 Quick Nav. 极简导航工具</p>
     <nav>
-      <a href="#">隐私政策</a>
-      <a href="#">使用条款</a>
-      <a href="#">联系我们</a>
+      <a href="#" onclick="showAbout()">关于</a>
+      <a href="#" onclick="showHelp()">帮助</a>
     </nav>
   </footer>
   
   <script>
     // 默认链接数据
-    const defaultLinks = {
-      "ai-search": [
-        { title: "Google AI", url: "https://ai.google/", icon: "fab fa-google" },
-        { title: "ChatGPT", url: "https://chat.openai.com/", icon: "fas fa-robot" },
-        { title: "Claude", url: "https://claude.ai/", icon: "fas fa-brain" },
-        { title: "Bing AI", url: "https://www.bing.com/search?q=Bing+AI&showconv=1", icon: "fab fa-microsoft" }
-      ],
-      "social": [
-        { title: "Twitter", url: "https://twitter.com/", icon: "fab fa-twitter" },
-        { title: "Facebook", url: "https://facebook.com/", icon: "fab fa-facebook" },
-        { title: "Instagram", url: "https://instagram.com/", icon: "fab fa-instagram" },
-        { title: "LinkedIn", url: "https://linkedin.com/", icon: "fab fa-linkedin" }
-      ],
-      "tools": [
-        { title: "Canva", url: "https://canva.com/", icon: "fas fa-paint-brush" },
-        { title: "Figma", url: "https://figma.com/", icon: "fab fa-figma" },
-        { title: "Notion", url: "https://notion.so/", icon: "fas fa-sticky-note" },
-        { title: "GitHub", url: "https://github.com/", icon: "fab fa-github" }
-      ],
-      "tech-news": [
-        { title: "TechCrunch", url: "https://techcrunch.com/", icon: "fas fa-newspaper" },
-        { title: "The Verge", url: "https://theverge.com/", icon: "fas fa-laptop" },
-        { title: "WIRED", url: "https://wired.com/", icon: "fas fa-wifi" },
-        { title: "Engadget", url: "https://engadget.com/", icon: "fas fa-mobile-alt" }
-      ],
-      "cloud-storage": [
-        { title: "Google Drive", url: "https://drive.google.com/", icon: "fab fa-google-drive" },
-        { title: "Dropbox", url: "https://dropbox.com/", icon: "fab fa-dropbox" },
-        { title: "OneDrive", url: "https://onedrive.live.com/", icon: "fab fa-microsoft" },
-        { title: "iCloud", url: "https://icloud.com/", icon: "fab fa-apple" }
-      ],
-      "email": [
-        { title: "Gmail", url: "https://mail.google.com/", icon: "fas fa-envelope" },
-        { title: "Outlook", url: "https://outlook.live.com/", icon: "fab fa-microsoft" },
-        { title: "ProtonMail", url: "https://protonmail.com/", icon: "fas fa-lock" },
-        { title: "Yahoo Mail", url: "https://mail.yahoo.com/", icon: "fab fa-yahoo" }
-      ]
-    };
+    const defaultLinks = [
+      { title: "Google", url: "https://google.com", icon: "fab fa-google" },
+      { title: "DeepSeek", url: "https://chat.deepseek.com", icon: "fas fa-brain" },
+      { title: "ChatGPT", url: "https://chat.openai.com", icon: "fas fa-robot" },
+      { title: "GitHub", url: "https://github.com", icon: "fab fa-github" },
+      { title: "YouTube", url: "https://youtube.com", icon: "fab fa-youtube" },
+      { title: "Gmail", url: "https://mail.google.com", icon: "fas fa-envelope" },
+      { title: "百度", url: "https://baidu.com", icon: "fas fa-search" },
+      { title: "知乎", url: "https://zhihu.com", icon: "fas fa-question-circle" }
+    ];
     
     // 从本地存储加载链接，如果没有则使用默认链接
-    let links = JSON.parse(localStorage.getItem('webnav-links')) || defaultLinks;
+    let links = JSON.parse(localStorage.getItem('quicknav-links')) || defaultLinks;
     
     // 登录状态管理
-    let isLoggedIn = localStorage.getItem('webnav-logged-in') === 'true';
+    let isLoggedIn = localStorage.getItem('quicknav-logged-in') === 'true';
     
     // 用于跟踪当前要删除的链接信息
     let linkToDelete = null;
@@ -665,6 +609,9 @@
       
       // 渲染所有链接
       renderAllLinks();
+      
+      // 设置搜索功能
+      document.getElementById('search-input').addEventListener('input', handleSearch);
       
       // 设置登录按钮事件
       document.getElementById('login-status-text').addEventListener('click', openLoginForm);
@@ -715,18 +662,15 @@
     function updateLoginStatus() {
       const statusText = document.getElementById('login-status-text');
       const logoutBtn = document.getElementById('logout-btn');
-      const loginBtn = document.getElementById('login-btn');
       
       if (isLoggedIn) {
         statusText.textContent = "已登录";
         statusText.className = "login-status-text logged-in";
         logoutBtn.style.display = "block";
-        loginBtn.style.display = "none";
       } else {
         statusText.textContent = "未登录 (点击登录)";
         statusText.className = "login-status-text";
         logoutBtn.style.display = "none";
-        loginBtn.style.display = "block";
       }
     }
     
@@ -743,14 +687,14 @@
       
       const password = document.getElementById('login-password').value;
       
-      // 密码验证（实际应用中应使用更安全的方法）
+      // 密码验证
       if (password === "admin123") {
         isLoggedIn = true;
-        localStorage.setItem('webnav-logged-in', 'true');
+        localStorage.setItem('quicknav-logged-in', 'true');
         updateLoginStatus();
         document.getElementById('login-form-modal').style.display = 'none';
         document.getElementById('login-form').reset();
-        alert("登录成功！现在可以进行删除操作。");
+        alert("登录成功！现在可以进行管理操作。");
       } else {
         alert("密码错误！");
       }
@@ -759,7 +703,7 @@
     // 退出登录
     function logout() {
       isLoggedIn = false;
-      localStorage.setItem('webnav-logged-in', 'false');
+      localStorage.setItem('quicknav-logged-in', 'false');
       updateLoginStatus();
       alert("已退出登录");
     }
@@ -774,86 +718,96 @@
       return true;
     }
     
-    // 渲染所有类别的链接
-    function renderAllLinks() {
-      for (const category in links) {
-        renderLinks(category);
-      }
-    }
-    
-    // 渲染特定类别的链接
-    function renderLinks(category) {
-      const linkGrid = document.querySelector(`#${category} .link-grid`);
+    // 渲染所有链接
+    function renderAllLinks(searchTerm = '') {
+      const linkGrid = document.getElementById('main-link-grid');
+      const emptyState = document.getElementById('empty-state');
+      
       if (!linkGrid) return;
       
       linkGrid.innerHTML = '';
       
-      links[category].forEach((link, index) => {
-        const linkCard = document.createElement('div');
+      // 过滤链接
+      const filteredLinks = links.filter(link => {
+        if (!searchTerm.trim()) return true;
+        return link.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+               link.url.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+      
+      // 如果没有链接，显示空状态
+      if (filteredLinks.length === 0) {
+        if (searchTerm.trim()) {
+          emptyState.innerHTML = `<p>没有找到包含"${searchTerm}"的链接</p>`;
+        } else {
+          emptyState.innerHTML = `<p>还没有添加任何链接，点击右下角的"添加链接"按钮开始吧！</p>`;
+        }
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      
+      // 渲染链接
+      filteredLinks.forEach((link, index) => {
+        const linkCard = document.createElement('a');
+        linkCard.href = link.url;
+        linkCard.target = "_blank";
         linkCard.className = "link-card";
+        linkCard.rel = "noopener noreferrer";
         
-        // 创建链接部分
-        const linkAnchor = document.createElement('a');
-        linkAnchor.href = link.url;
-        linkAnchor.target = "_blank";
-        linkAnchor.style.textDecoration = "none";
-        linkAnchor.style.color = "inherit";
-        linkAnchor.style.width = "100%";
-        linkAnchor.style.display = "flex";
-        linkAnchor.style.flexDirection = "column";
-        linkAnchor.style.alignItems = "center";
-        
-        linkAnchor.innerHTML = `
+        // 创建链接内容
+        linkCard.innerHTML = `
           <div class="link-icon">
             <i class="${link.icon}"></i>
           </div>
           <div class="link-title">${link.title}</div>
         `;
         
-        // 创建操作按钮
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = "link-actions";
-        
-        const editBtn = document.createElement('div');
-        editBtn.className = "edit-btn";
-        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-        editBtn.title = "编辑链接";
-        editBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          openEditForm(category, index, link);
-        });
-        
-        const deleteBtn = document.createElement('div');
-        deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        deleteBtn.title = "删除链接";
-        deleteBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+        // 如果已登录，添加操作按钮
+        if (isLoggedIn) {
+          const actionsDiv = document.createElement('div');
+          actionsDiv.className = "link-actions";
           
-          // 检查登录状态
-          if (checkLoginForDelete()) {
-            openDeleteConfirm(category, index, link);
-          }
-        });
+          const editBtn = document.createElement('div');
+          editBtn.className = "edit-btn";
+          editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+          editBtn.title = "编辑链接";
+          editBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditForm(index, link);
+          });
+          
+          const deleteBtn = document.createElement('div');
+          deleteBtn.className = "delete-btn";
+          deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+          deleteBtn.title = "删除链接";
+          deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openDeleteConfirm(index, link);
+          });
+          
+          actionsDiv.appendChild(editBtn);
+          actionsDiv.appendChild(deleteBtn);
+          linkCard.appendChild(actionsDiv);
+        }
         
-        actionsDiv.appendChild(editBtn);
-        actionsDiv.appendChild(deleteBtn);
-        
-        linkCard.appendChild(linkAnchor);
-        linkCard.appendChild(actionsDiv);
         linkGrid.appendChild(linkCard);
       });
     }
     
+    // 处理搜索
+    function handleSearch(e) {
+      const searchTerm = e.target.value;
+      renderAllLinks(searchTerm);
+    }
+    
     // 打开编辑表单
-    function openEditForm(category, index, link) {
+    function openEditForm(index, link) {
       const editForm = document.getElementById('edit-form');
-      const form = document.getElementById('link-form');
       
       // 填充表单数据
-      document.getElementById('category').value = category;
       document.getElementById('title').value = link.title;
       document.getElementById('url').value = link.url;
       document.getElementById('icon').value = link.icon;
@@ -861,32 +815,30 @@
       
       // 显示表单
       editForm.style.display = 'block';
-      
-      // 更新编辑按钮状态
-      document.getElementById('toggle-edit').textContent = '关闭编辑';
-      document.getElementById('toggle-edit').style.backgroundColor = 'var(--dark-color)';
     }
     
     // 打开删除确认对话框
-    function openDeleteConfirm(category, index, link) {
-      linkToDelete = { category, index, link };
-      const deleteConfirm = document.getElementById('delete-confirm');
-      deleteConfirm.style.display = 'block';
+    function openDeleteConfirm(index, link) {
+      // 检查登录状态
+      if (!checkLoginForDelete()) return;
+      
+      linkToDelete = { index, link };
+      document.getElementById('delete-confirm').style.display = 'block';
     }
     
     // 确认删除
     function confirmDelete() {
       if (linkToDelete) {
-        const { category, index } = linkToDelete;
+        const { index } = linkToDelete;
         
         // 从数组中删除链接
-        links[category].splice(index, 1);
+        links.splice(index, 1);
         
         // 保存到本地存储
-        localStorage.setItem('webnav-links', JSON.stringify(links));
+        localStorage.setItem('quicknav-links', JSON.stringify(links));
         
         // 重新渲染链接
-        renderLinks(category);
+        renderAllLinks(document.getElementById('search-input').value);
         
         // 关闭确认对话框
         document.getElementById('delete-confirm').style.display = 'none';
@@ -912,15 +864,15 @@
       
       if (editForm.style.display === 'block') {
         editForm.style.display = 'none';
-        toggleEditBtn.textContent = '编辑模式';
+        toggleEditBtn.textContent = '添加链接';
         toggleEditBtn.style.backgroundColor = 'var(--primary-color)';
       } else {
-        // 如果当前在编辑链接，先清空表单
+        // 清空表单
         document.getElementById('link-form').reset();
         document.getElementById('edit-index').value = '-1';
         
         editForm.style.display = 'block';
-        toggleEditBtn.textContent = '关闭编辑';
+        toggleEditBtn.textContent = '关闭';
         toggleEditBtn.style.backgroundColor = 'var(--dark-color)';
       }
     }
@@ -930,48 +882,54 @@
       e.preventDefault();
       
       const password = document.getElementById('edit-password').value;
-      const category = document.getElementById('category').value;
       const title = document.getElementById('title').value;
       const url = document.getElementById('url').value;
       const icon = document.getElementById('icon').value;
       const editIndex = parseInt(document.getElementById('edit-index').value);
       
-      // 简单密码验证
+      // 密码验证
       if (password !== "admin123") {
         alert("密码错误！");
         return;
       }
       
-      if (!category) {
-        alert("请选择类别！");
+      // 验证输入
+      if (!title.trim()) {
+        alert("请输入链接标题！");
         return;
       }
       
-      // 确保类别数组存在
-      if (!links[category]) {
-        links[category] = [];
+      if (!url.trim()) {
+        alert("请输入链接地址！");
+        return;
       }
       
-      const newLink = { title, url, icon };
+      // 确保URL有协议
+      let finalUrl = url;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        finalUrl = 'https://' + url;
+      }
+      
+      const newLink = { title: title.trim(), url: finalUrl, icon: icon.trim() || 'fas fa-link' };
       
       // 判断是编辑现有链接还是添加新链接
-      if (editIndex >= 0 && editIndex < links[category].length) {
+      if (editIndex >= 0 && editIndex < links.length) {
         // 编辑现有链接
-        links[category][editIndex] = newLink;
+        links[editIndex] = newLink;
       } else {
         // 添加新链接
-        links[category].push(newLink);
+        links.push(newLink);
       }
       
       // 保存到本地存储
-      localStorage.setItem('webnav-links', JSON.stringify(links));
+      localStorage.setItem('quicknav-links', JSON.stringify(links));
       
       // 重新渲染链接
-      renderLinks(category);
+      renderAllLinks(document.getElementById('search-input').value);
       
       // 关闭表单
       document.getElementById('edit-form').style.display = 'none';
-      document.getElementById('toggle-edit').textContent = '编辑模式';
+      document.getElementById('toggle-edit').textContent = '添加链接';
       document.getElementById('toggle-edit').style.backgroundColor = 'var(--primary-color)';
       
       // 清空表单
@@ -979,6 +937,16 @@
       document.getElementById('edit-index').value = '-1';
       
       alert("链接已保存！");
+    }
+    
+    // 显示关于信息
+    function showAbout() {
+      alert("Quick Nav - 极简导航工具\n\n一个简洁、快速的个人导航页面，可以自由添加和管理常用网站链接。\n\n密码：admin123");
+    }
+    
+    // 显示帮助信息
+    function showHelp() {
+      alert("使用帮助：\n\n1. 点击链接可以快速访问网站\n2. 点击右下角'添加链接'可以添加新链接\n3. 登录后可以对链接进行编辑和删除\n4. 在搜索框中输入关键词可以快速查找链接\n5. 默认密码：admin123");
     }
   </script>
 </body>
