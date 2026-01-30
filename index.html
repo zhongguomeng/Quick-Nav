@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>极简导航</title>
+  <title>极简导航 - 云端同步版</title>
   <style>
     /* 全局极简样式 */
     :root {
@@ -175,121 +175,6 @@
       background-color: #c0392b;
     }
     
-    /* 编辑表单样式 */
-    #edit-form {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: var(--spacing-lg);
-      border-radius: var(--border-radius);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      width: 90%;
-      max-width: 400px;
-      display: none;
-    }
-    
-    #edit-form h2 {
-      margin-bottom: var(--spacing-md);
-      color: var(--primary-color);
-      font-weight: 500;
-      text-align: center;
-    }
-    
-    #link-form {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    #link-form input {
-      padding: var(--spacing-md);
-      margin-bottom: var(--spacing-md);
-      border: 1px solid var(--gray-color);
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      transition: border-color 0.2s ease;
-    }
-    
-    #link-form input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-    }
-    
-    #link-form button {
-      padding: var(--spacing-md);
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    
-    #link-form button:hover {
-      background-color: #2980b9;
-    }
-    
-    /* 登录表单样式 */
-    #login-form-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: var(--spacing-lg);
-      border-radius: var(--border-radius);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      z-index: 1001;
-      width: 90%;
-      max-width: 400px;
-      display: none;
-    }
-    
-    #login-form-modal h3 {
-      margin-bottom: var(--spacing-md);
-      color: var(--primary-color);
-      text-align: center;
-    }
-    
-    #login-form {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    #login-form input {
-      padding: var(--spacing-md);
-      margin-bottom: var(--spacing-md);
-      border: 1px solid var(--gray-color);
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      transition: border-color 0.2s ease;
-    }
-    
-    #login-form input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-    }
-    
-    #login-form button {
-      padding: var(--spacing-md);
-      background-color: var(--success-color);
-      color: white;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    
-    #login-form button:hover {
-      background-color: #27ae60;
-    }
-    
     /* 登录状态指示器 */
     #login-status {
       position: fixed;
@@ -335,8 +220,57 @@
       background-color: rgba(231, 76, 60, 0.1);
     }
     
-    /* 删除确认模态框 */
-    #delete-confirm {
+    /* 云端同步状态指示器 */
+    #cloud-status {
+      position: fixed;
+      top: 70px;
+      right: var(--spacing-md);
+      background-color: var(--light-color);
+      padding: 6px 12px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 99;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #cloud-status:hover {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    .cloud-icon {
+      font-size: 0.9rem;
+    }
+    
+    .cloud-status-text {
+      font-weight: 500;
+    }
+    
+    .cloud-synced {
+      color: var(--success-color);
+    }
+    
+    .cloud-pending {
+      color: var(--accent-color);
+      animation: pulse 1.5s infinite;
+    }
+    
+    .cloud-error {
+      color: var(--danger-color);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* 表单模态框通用样式 */
+    .modal {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -344,17 +278,75 @@
       background-color: white;
       padding: var(--spacing-lg);
       border-radius: var(--border-radius);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
       z-index: 1000;
       width: 90%;
       max-width: 400px;
       display: none;
     }
     
-    #delete-confirm h3 {
+    .modal h2, .modal h3 {
       margin-bottom: var(--spacing-md);
-      color: var(--danger-color);
+      color: var(--primary-color);
       text-align: center;
+    }
+    
+    .modal form {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .modal input {
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      border: 1px solid var(--gray-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    
+    .modal input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+    
+    .modal button {
+      padding: var(--spacing-md);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    
+    /* 登录表单 */
+    #login-form-modal {
+      z-index: 1001;
+    }
+    
+    #login-form button {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    #login-form button:hover {
+      background-color: #27ae60;
+    }
+    
+    /* 编辑表单 */
+    #edit-form button {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    #edit-form button:hover {
+      background-color: #2980b9;
+    }
+    
+    /* 删除确认对话框 */
+    #delete-confirm {
+      max-width: 350px;
     }
     
     #delete-confirm p {
@@ -371,12 +363,6 @@
     
     .confirm-buttons button {
       padding: var(--spacing-sm) var(--spacing-md);
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
       min-width: 80px;
     }
     
@@ -396,6 +382,183 @@
     
     #cancel-delete-btn:hover {
       background-color: #dee2e6;
+    }
+    
+    /* 云端管理面板 */
+    #cloud-management {
+      max-width: 500px;
+      z-index: 1002;
+    }
+    
+    #cloud-management h3 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .cloud-tabs {
+      display: flex;
+      margin-bottom: var(--spacing-md);
+      border-bottom: 1px solid var(--gray-color);
+    }
+    
+    .cloud-tab {
+      flex: 1;
+      padding: var(--spacing-sm);
+      text-align: center;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .cloud-tab.active {
+      border-bottom-color: var(--accent-color);
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+    
+    .cloud-tab-content {
+      display: none;
+    }
+    
+    .cloud-tab-content.active {
+      display: block;
+    }
+    
+    .sync-info {
+      background-color: var(--light-color);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-md);
+      font-size: 0.9rem;
+    }
+    
+    .sync-info-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .sync-info-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .sync-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+    
+    .sync-btn {
+      padding: var(--spacing-md);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      transition: all 0.2s ease;
+    }
+    
+    .sync-btn-primary {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    .sync-btn-primary:hover {
+      background-color: #2980b9;
+    }
+    
+    .sync-btn-secondary {
+      background-color: var(--light-color);
+      color: var(--text-color);
+      border: 1px solid var(--gray-color);
+    }
+    
+    .sync-btn-secondary:hover {
+      background-color: var(--gray-color);
+    }
+    
+    .sync-btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .sync-btn-success:hover {
+      background-color: #27ae60;
+    }
+    
+    .config-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+    
+    .config-form input {
+      padding: var(--spacing-md);
+      border: 1px solid var(--gray-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+    }
+    
+    .config-form input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    /* 同步状态通知 */
+    .sync-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--success-color);
+      color: white;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-hover);
+      z-index: 1003;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from { top: -50px; }
+      to { top: 20px; }
+    }
+    
+    /* 加载动画 */
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
     
     /* 编辑按钮样式 */
@@ -478,8 +641,15 @@
         justify-content: space-between;
       }
       
+      #cloud-status {
+        top: 60px;
+        right: 10px;
+        left: 10px;
+        justify-content: center;
+      }
+      
       .link-actions {
-        display: flex !important; /* 移动设备上始终显示操作按钮 */
+        display: flex !important;
       }
     }
     
@@ -500,6 +670,14 @@
       header h1 {
         font-size: 1.8rem;
       }
+      
+      .cloud-tabs {
+        flex-direction: column;
+      }
+      
+      .sync-actions {
+        gap: var(--spacing-sm);
+      }
     }
     
     @media (max-width: 360px) {
@@ -517,8 +695,14 @@
     <button id="logout-btn" style="display: none;">退出登录</button>
   </div>
   
+  <!-- 云端同步状态 -->
+  <div id="cloud-status" title="点击管理云端同步">
+    <i class="fas fa-cloud cloud-icon"></i>
+    <span id="cloud-status-text" class="cloud-status-text">本地模式</span>
+  </div>
+  
   <header>
-    <h1>Quick Nav</h1>
+    <h1>Quick Nav <small style="font-size: 0.5em; color: var(--accent-color);">云端版</small></h1>
   </header>
   
   <!-- 搜索框 -->
@@ -538,8 +722,130 @@
     </div>
   </main>
   
+  <!-- 同步通知 -->
+  <div id="sync-notification" class="sync-notification"></div>
+  
+  <!-- 云端管理面板 -->
+  <div id="cloud-management" class="modal">
+    <h3><i class="fas fa-cloud"></i> 云端同步管理</h3>
+    
+    <div class="cloud-tabs">
+      <div class="cloud-tab active" data-tab="sync">同步数据</div>
+      <div class="cloud-tab" data-tab="config">云端配置</div>
+      <div class="cloud-tab" data-tab="help">使用帮助</div>
+    </div>
+    
+    <!-- 同步数据标签页 -->
+    <div class="cloud-tab-content active" id="sync-tab">
+      <div class="sync-info">
+        <div class="sync-info-item">
+          <span>云端状态:</span>
+          <span id="cloud-sync-status">未连接</span>
+        </div>
+        <div class="sync-info-item">
+          <span>最后同步:</span>
+          <span id="cloud-last-sync">从未同步</span>
+        </div>
+        <div class="sync-info-item">
+          <span>链接数量:</span>
+          <span id="cloud-link-count">0</span>
+        </div>
+      </div>
+      
+      <div class="sync-actions">
+        <button class="sync-btn sync-btn-primary" id="sync-to-cloud">
+          <i class="fas fa-cloud-upload-alt"></i>
+          上传到云端
+        </button>
+        <button class="sync-btn sync-btn-secondary" id="sync-from-cloud">
+          <i class="fas fa-cloud-download-alt"></i>
+          从云端下载
+        </button>
+        <button class="sync-btn sync-btn-success" id="force-sync">
+          <i class="fas fa-sync-alt"></i>
+          强制同步（覆盖）
+        </button>
+      </div>
+      
+      <div style="text-align: center; margin-top: var(--spacing-lg);">
+        <small style="color: var(--text-light);">
+          云端数据会覆盖本地数据，建议定期备份
+        </small>
+      </div>
+    </div>
+    
+    <!-- 配置标签页 -->
+    <div class="cloud-tab-content" id="config-tab">
+      <form class="config-form" id="cloud-config-form">
+        <div class="input-wrapper">
+          <input type="text" id="cloud-api-url" 
+                 placeholder="Cloudflare Worker URL" 
+                 required>
+        </div>
+        
+        <div class="input-wrapper">
+          <input type="password" id="cloud-api-key" 
+                 placeholder="API密钥" 
+                 required>
+          <button type="button" class="password-toggle" data-target="cloud-api-key">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        
+        <div class="input-wrapper">
+          <input type="password" id="cloud-admin-password" 
+                 placeholder="云端管理密码" 
+                 value="admin123" required>
+          <button type="button" class="password-toggle" data-target="cloud-admin-password">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        
+        <button type="submit" class="sync-btn sync-btn-primary">
+          <i class="fas fa-save"></i>
+          保存配置
+        </button>
+      </form>
+      
+      <div style="margin-top: var(--spacing-lg);">
+        <h4 style="margin-bottom: var(--spacing-sm);">如何获取配置？</h4>
+        <ol style="padding-left: var(--spacing-md); font-size: 0.9rem; color: var(--text-light);">
+          <li>在Cloudflare创建一个Worker</li>
+          <li>绑定一个KV命名空间</li>
+          <li>部署Worker获取URL</li>
+          <li>在Worker设置中设置API_KEY变量</li>
+        </ol>
+      </div>
+    </div>
+    
+    <!-- 帮助标签页 -->
+    <div class="cloud-tab-content" id="help-tab">
+      <h4>云端同步功能说明</h4>
+      <ul style="margin-bottom: var(--spacing-md); padding-left: var(--spacing-md);">
+        <li>数据存储在Cloudflare全球网络</li>
+        <li>支持跨设备实时同步</li>
+        <li>数据加密传输</li>
+        <li>自动备份和版本控制</li>
+      </ul>
+      
+      <h4>操作说明</h4>
+      <p style="font-size: 0.9rem; color: var(--text-light);">
+        1. 先在"云端配置"中填写Worker信息<br>
+        2. 使用"上传到云端"保存数据<br>
+        3. 在其他设备使用"从云端下载"同步<br>
+        4. 管理密码：admin123（可在配置中修改）
+      </p>
+    </div>
+    
+    <div class="modal-buttons" style="margin-top: var(--spacing-lg);">
+      <button id="close-cloud-management" style="padding: var(--spacing-sm) var(--spacing-md);">
+        关闭
+      </button>
+    </div>
+  </div>
+  
   <!-- 登录表单 -->
-  <div id="login-form-modal">
+  <div id="login-form-modal" class="modal">
     <h3>登录管理</h3>
     <form id="login-form">
       <input type="password" id="login-password" name="login_password" placeholder="输入管理密码" required>
@@ -548,7 +854,7 @@
   </div>
   
   <!-- 编辑表单 -->
-  <div id="edit-form">
+  <div id="edit-form" class="modal">
     <h2>添加/编辑链接</h2>
     <form id="link-form">
       <input type="password" id="edit-password" name="edit_password" placeholder="编辑密码" required>
@@ -561,7 +867,7 @@
   </div>
   
   <!-- 删除确认对话框 -->
-  <div id="delete-confirm">
+  <div id="delete-confirm" class="modal">
     <h3>确认删除</h3>
     <p>确定要删除这个链接吗？此操作无法撤销。</p>
     <div class="confirm-buttons">
@@ -570,17 +876,27 @@
     </div>
   </div>
   
+  <!-- 添加链接按钮 -->
   <button id="toggle-edit">添加链接</button>
   
   <footer>
-    <p>&copy; 2026 Quick Nav. 极简导航工具</p>
+    <p>&copy; 2026 Quick Nav. 极简导航工具 - 云端同步版</p>
     <nav>
       <a href="#" onclick="showAbout()">关于</a>
       <a href="#" onclick="showHelp()">帮助</a>
+      <a href="#" onclick="showCloudManagement()">云端同步</a>
     </nav>
   </footer>
   
   <script>
+    // 配置 Cloudflare Worker 端点
+    const CLOUDFLARE_CONFIG = {
+      workerUrl: localStorage.getItem('cloudflare_worker_url') || '',
+      apiKey: localStorage.getItem('cloudflare_api_key') || '',
+      adminPassword: localStorage.getItem('cloudflare_admin_password') || 'admin123',
+      enabled: localStorage.getItem('cloudflare_enabled') === 'true'
+    };
+    
     // 默认链接数据
     const defaultLinks = [
       { title: "Google", url: "https://google.com", icon: "fab fa-google" },
@@ -593,72 +909,355 @@
       { title: "知乎", url: "https://zhihu.com", icon: "fas fa-question-circle" }
     ];
     
-    // 从本地存储加载链接，如果没有则使用默认链接
-    let links = JSON.parse(localStorage.getItem('quicknav-links')) || defaultLinks;
-    
-    // 登录状态管理
-    let isLoggedIn = localStorage.getItem('quicknav-logged-in') === 'true';
-    
-    // 用于跟踪当前要删除的链接信息
+    // 全局变量
+    let links = [];
+    let isLoggedIn = false;
     let linkToDelete = null;
+    let isSyncing = false;
+    let lastSyncTime = null;
     
-    // 页面加载时初始化
-    document.addEventListener('DOMContentLoaded', () => {
-      // 初始化登录状态
-      updateLoginStatus();
+    // 初始化函数
+    function init() {
+      // 加载数据
+      loadLocalData();
       
-      // 渲染所有链接
+      // 更新UI状态
+      updateLoginStatus();
+      updateCloudStatus();
       renderAllLinks();
       
-      // 设置搜索功能
+      // 绑定事件
+      bindEvents();
+      
+      // 如果有云端配置，尝试检查连接
+      if (CLOUDFLARE_CONFIG.enabled && CLOUDFLARE_CONFIG.workerUrl) {
+        setTimeout(checkCloudConnection, 1000);
+      }
+    }
+    
+    // 加载本地数据
+    function loadLocalData() {
+      const savedLinks = localStorage.getItem('quicknav-links');
+      links = savedLinks ? JSON.parse(savedLinks) : [...defaultLinks];
+      
+      if (!savedLinks) {
+        localStorage.setItem('quicknav-links', JSON.stringify(links));
+      }
+      
+      isLoggedIn = localStorage.getItem('quicknav-logged-in') === 'true';
+      lastSyncTime = localStorage.getItem('last_sync_time') || null;
+    }
+    
+    // 绑定所有事件
+    function bindEvents() {
+      // 搜索功能
       document.getElementById('search-input').addEventListener('input', handleSearch);
       
-      // 设置登录按钮事件
+      // 登录相关
       document.getElementById('login-status-text').addEventListener('click', openLoginForm);
       document.getElementById('logout-btn').addEventListener('click', logout);
-      
-      // 设置编辑模式切换
-      document.getElementById('toggle-edit').addEventListener('click', toggleEditMode);
-      
-      // 设置表单提交
-      document.getElementById('link-form').addEventListener('submit', handleFormSubmit);
       document.getElementById('login-form').addEventListener('submit', handleLoginSubmit);
       
-      // 设置删除确认按钮
+      // 编辑相关
+      document.getElementById('toggle-edit').addEventListener('click', toggleEditMode);
+      document.getElementById('link-form').addEventListener('submit', handleFormSubmit);
+      
+      // 删除相关
       document.getElementById('confirm-delete-btn').addEventListener('click', confirmDelete);
       document.getElementById('cancel-delete-btn').addEventListener('click', cancelDelete);
       
-      // 点击页面其他地方关闭模态框
-      document.addEventListener('click', (e) => {
-        const editForm = document.getElementById('edit-form');
-        const deleteConfirm = document.getElementById('delete-confirm');
-        const loginForm = document.getElementById('login-form-modal');
-        const toggleEditBtn = document.getElementById('toggle-edit');
-        const loginStatusText = document.getElementById('login-status-text');
-        
-        // 关闭编辑表单
-        if (editForm.style.display === 'block' && 
-            !editForm.contains(e.target) && 
-            e.target !== toggleEditBtn) {
-          editForm.style.display = 'none';
-        }
-        
-        // 关闭删除确认框
-        if (deleteConfirm.style.display === 'block' && 
-            !deleteConfirm.contains(e.target)) {
-          deleteConfirm.style.display = 'none';
-        }
-        
-        // 关闭登录表单
-        if (loginForm.style.display === 'block' && 
-            !loginForm.contains(e.target) && 
-            e.target !== loginStatusText) {
-          loginForm.style.display = 'none';
-        }
+      // 云端相关
+      document.getElementById('cloud-status').addEventListener('click', showCloudManagement);
+      document.getElementById('sync-to-cloud').addEventListener('click', uploadToCloud);
+      document.getElementById('sync-from-cloud').addEventListener('click', downloadFromCloud);
+      document.getElementById('force-sync').addEventListener('click', forceSync);
+      document.getElementById('cloud-config-form').addEventListener('submit', saveCloudConfig);
+      document.getElementById('close-cloud-management').addEventListener('click', hideCloudManagement);
+      
+      // 密码显示/隐藏切换
+      document.querySelectorAll('.password-toggle').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+          const input = document.getElementById(targetId);
+          const icon = this.querySelector('i');
+          
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+          } else {
+            input.type = 'password';
+            icon.className = 'fas fa-eye';
+          }
+        });
       });
-    });
+      
+      // 标签页切换
+      document.querySelectorAll('.cloud-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          const tabId = this.getAttribute('data-tab');
+          switchTab(tabId);
+        });
+      });
+      
+      // 模态框点击外部关闭
+      document.addEventListener('click', (e) => {
+        const modals = ['login-form-modal', 'edit-form', 'delete-confirm', 'cloud-management'];
+        const modalElements = modals.map(id => document.getElementById(id));
+        
+        modalElements.forEach(modal => {
+          if (modal && modal.style.display === 'block' && !modal.contains(e.target)) {
+            const ignoreTargets = [
+              'login-status-text', 'toggle-edit', 'cloud-status'
+            ];
+            
+            if (!ignoreTargets.includes(e.target.id) && 
+                !e.target.closest('#' + ignoreTargets.join(', #'))) {
+              modal.style.display = 'none';
+              
+              if (modal.id === 'edit-form') {
+                document.getElementById('toggle-edit').textContent = '添加链接';
+                document.getElementById('toggle-edit').style.backgroundColor = 'var(--primary-color)';
+              }
+            }
+          }
+        });
+      });
+    }
     
-    // 更新登录状态显示
+    // === 云端功能 ===
+    function updateCloudStatus() {
+      const statusEl = document.getElementById('cloud-status-text');
+      const cloudStatus = document.getElementById('cloud-status');
+      
+      if (CLOUDFLARE_CONFIG.enabled && CLOUDFLARE_CONFIG.workerUrl) {
+        statusEl.textContent = '云端已连接';
+        statusEl.className = 'cloud-status-text cloud-synced';
+        cloudStatus.style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
+      } else {
+        statusEl.textContent = '本地模式';
+        statusEl.className = 'cloud-status-text';
+        cloudStatus.style.backgroundColor = 'var(--light-color)';
+      }
+    }
+    
+    async function checkCloudConnection() {
+      try {
+        const response = await fetch(`${CLOUDFLARE_CONFIG.workerUrl}/api/config`, {
+          headers: {
+            'Authorization': `Bearer ${CLOUDFLARE_CONFIG.apiKey}`
+          }
+        });
+        
+        if (response.ok) {
+          console.log('云端连接成功');
+          return true;
+        }
+      } catch (error) {
+        console.warn('无法连接到云端:', error);
+      }
+      return false;
+    }
+    
+    async function uploadToCloud() {
+      if (!CLOUDFLARE_CONFIG.workerUrl) {
+        showNotification('请先配置Cloudflare Worker URL', 'error');
+        switchTab('config');
+        return;
+      }
+      
+      if (isSyncing) return;
+      isSyncing = true;
+      
+      const btn = document.getElementById('sync-to-cloud');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<div class="loader"></div> 上传中...';
+      
+      try {
+        const response = await fetch(`${CLOUDFLARE_CONFIG.workerUrl}/api/links`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${CLOUDFLARE_CONFIG.apiKey}`
+          },
+          body: JSON.stringify({
+            links: links,
+            password: CLOUDFLARE_CONFIG.adminPassword
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          lastSyncTime = new Date().toISOString();
+          localStorage.setItem('last_sync_time', lastSyncTime);
+          updateSyncInfo();
+          showNotification('数据已成功上传到云端', 'success');
+        } else {
+          throw new Error(data.error || '上传失败');
+        }
+      } catch (error) {
+        showNotification(`上传失败: ${error.message}`, 'error');
+        console.error('上传失败:', error);
+      } finally {
+        isSyncing = false;
+        btn.innerHTML = originalText;
+      }
+    }
+    
+    async function downloadFromCloud() {
+      if (!CLOUDFLARE_CONFIG.workerUrl) {
+        showNotification('请先配置Cloudflare Worker URL', 'error');
+        switchTab('config');
+        return;
+      }
+      
+      if (isSyncing) return;
+      isSyncing = true;
+      
+      const btn = document.getElementById('sync-from-cloud');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<div class="loader"></div> 下载中...';
+      
+      try {
+        const response = await fetch(`${CLOUDFLARE_CONFIG.workerUrl}/api/links`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          if (data.links && data.links.length > 0) {
+            if (confirm(`将从云端下载 ${data.links.length} 个链接，这会覆盖当前的 ${links.length} 个本地链接。确定要继续吗？`)) {
+              links = data.links;
+              localStorage.setItem('quicknav-links', JSON.stringify(links));
+              lastSyncTime = new Date().toISOString();
+              localStorage.setItem('last_sync_time', lastSyncTime);
+              
+              renderAllLinks();
+              updateSyncInfo();
+              showNotification('已从云端下载数据', 'success');
+            }
+          } else {
+            showNotification('云端没有数据', 'warning');
+          }
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error || '下载失败');
+        }
+      } catch (error) {
+        showNotification(`下载失败: ${error.message}`, 'error');
+        console.error('下载失败:', error);
+      } finally {
+        isSyncing = false;
+        btn.innerHTML = originalText;
+      }
+    }
+    
+    async function forceSync() {
+      if (confirm('强制同步将用云端数据完全覆盖本地数据，且不可恢复。确定要继续吗？')) {
+        await downloadFromCloud();
+      }
+    }
+    
+    function saveCloudConfig(e) {
+      e.preventDefault();
+      
+      const workerUrl = document.getElementById('cloud-api-url').value;
+      const apiKey = document.getElementById('cloud-api-key').value;
+      const adminPassword = document.getElementById('cloud-admin-password').value;
+      
+      if (!workerUrl || !apiKey) {
+        showNotification('请填写所有必填字段', 'error');
+        return;
+      }
+      
+      // 保存配置
+      CLOUDFLARE_CONFIG.workerUrl = workerUrl;
+      CLOUDFLARE_CONFIG.apiKey = apiKey;
+      CLOUDFLARE_CONFIG.adminPassword = adminPassword;
+      CLOUDFLARE_CONFIG.enabled = true;
+      
+      localStorage.setItem('cloudflare_worker_url', workerUrl);
+      localStorage.setItem('cloudflare_api_key', apiKey);
+      localStorage.setItem('cloudflare_admin_password', adminPassword);
+      localStorage.setItem('cloudflare_enabled', 'true');
+      
+      updateCloudStatus();
+      updateSyncInfo();
+      showNotification('云端配置已保存', 'success');
+      
+      // 测试连接
+      setTimeout(async () => {
+        const connected = await checkCloudConnection();
+        if (connected) {
+          showNotification('云端连接测试成功', 'success');
+        } else {
+          showNotification('云端连接失败，请检查配置', 'error');
+        }
+      }, 500);
+    }
+    
+    function updateSyncInfo() {
+      document.getElementById('cloud-last-sync').textContent = 
+        lastSyncTime ? new Date(lastSyncTime).toLocaleString() : '从未同步';
+      document.getElementById('cloud-link-count').textContent = links.length;
+      
+      if (CLOUDFLARE_CONFIG.enabled && CLOUDFLARE_CONFIG.workerUrl) {
+        document.getElementById('cloud-sync-status').textContent = '已连接';
+        document.getElementById('cloud-sync-status').style.color = 'var(--success-color)';
+      } else {
+        document.getElementById('cloud-sync-status').textContent = '未连接';
+        document.getElementById('cloud-sync-status').style.color = 'var(--text-light)';
+      }
+    }
+    
+    function switchTab(tabId) {
+      // 更新标签
+      document.querySelectorAll('.cloud-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`.cloud-tab[data-tab="${tabId}"]`).classList.add('active');
+      
+      // 更新内容
+      document.querySelectorAll('.cloud-tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`${tabId}-tab`).classList.add('active');
+      
+      // 如果是配置标签页，预填数据
+      if (tabId === 'config') {
+        document.getElementById('cloud-api-url').value = CLOUDFLARE_CONFIG.workerUrl;
+        document.getElementById('cloud-api-key').value = CLOUDFLARE_CONFIG.apiKey;
+        document.getElementById('cloud-admin-password').value = CLOUDFLARE_CONFIG.adminPassword;
+      }
+      
+      // 如果是同步标签页，更新信息
+      if (tabId === 'sync') {
+        updateSyncInfo();
+      }
+    }
+    
+    function showCloudManagement() {
+      document.getElementById('cloud-management').style.display = 'block';
+      switchTab('sync');
+    }
+    
+    function hideCloudManagement() {
+      document.getElementById('cloud-management').style.display = 'none';
+    }
+    
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('sync-notification');
+      notification.textContent = message;
+      notification.style.backgroundColor = type === 'success' ? 'var(--success-color)' : 
+                                        type === 'error' ? 'var(--danger-color)' : 
+                                        type === 'warning' ? 'var(--accent-color)' : 'var(--primary-color)';
+      notification.style.display = 'block';
+      
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+    
+    // === 核心功能 ===
     function updateLoginStatus() {
       const statusText = document.getElementById('login-status-text');
       const logoutBtn = document.getElementById('logout-btn');
@@ -673,55 +1272,9 @@
         logoutBtn.style.display = "none";
       }
       
-      // 更新链接显示（重新渲染以显示/隐藏操作按钮）
       renderAllLinks(document.getElementById('search-input').value);
     }
     
-    // 打开登录表单
-    function openLoginForm() {
-      if (!isLoggedIn) {
-        document.getElementById('login-form-modal').style.display = 'block';
-      }
-    }
-    
-    // 处理登录表单提交
-    function handleLoginSubmit(e) {
-      e.preventDefault();
-      
-      const password = document.getElementById('login-password').value;
-      
-      // 密码验证
-      if (password === "admin123") {
-        isLoggedIn = true;
-        localStorage.setItem('quicknav-logged-in', 'true');
-        updateLoginStatus();
-        document.getElementById('login-form-modal').style.display = 'none';
-        document.getElementById('login-form').reset();
-        alert("登录成功！现在可以进行管理操作。");
-      } else {
-        alert("密码错误！");
-      }
-    }
-    
-    // 退出登录
-    function logout() {
-      isLoggedIn = false;
-      localStorage.setItem('quicknav-logged-in', 'false');
-      updateLoginStatus();
-      alert("已退出登录");
-    }
-    
-    // 检查登录状态（用于删除操作）
-    function checkLoginForDelete() {
-      if (!isLoggedIn) {
-        alert("请先登录才能进行删除操作！");
-        openLoginForm();
-        return false;
-      }
-      return true;
-    }
-    
-    // 渲染所有链接
     function renderAllLinks(searchTerm = '') {
       const linkGrid = document.getElementById('main-link-grid');
       const emptyState = document.getElementById('empty-state');
@@ -730,14 +1283,12 @@
       
       linkGrid.innerHTML = '';
       
-      // 过滤链接
       const filteredLinks = links.filter(link => {
         if (!searchTerm.trim()) return true;
         return link.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                link.url.toLowerCase().includes(searchTerm.toLowerCase());
       });
       
-      // 如果没有链接，显示空状态
       if (filteredLinks.length === 0) {
         if (searchTerm.trim()) {
           emptyState.innerHTML = `<p>没有找到包含"${searchTerm}"的链接</p>`;
@@ -750,13 +1301,10 @@
       
       emptyState.style.display = 'none';
       
-      // 渲染链接
       filteredLinks.forEach((link, index) => {
-        // 创建链接容器（使用div而不是a，因为要包含操作按钮）
         const linkContainer = document.createElement('div');
         linkContainer.className = "link-card";
         
-        // 创建链接部分
         const linkAnchor = document.createElement('a');
         linkAnchor.href = link.url;
         linkAnchor.target = "_blank";
@@ -775,113 +1323,89 @@
           <div class="link-title">${link.title}</div>
         `;
         
-        // 创建操作按钮
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = "link-actions";
-        
-        const editBtn = document.createElement('div');
-        editBtn.className = "edit-btn";
-        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-        editBtn.title = "编辑链接";
-        editBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          openEditForm(index, link);
-        });
-        
-        const deleteBtn = document.createElement('div');
-        deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        deleteBtn.title = "删除链接";
-        deleteBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          openDeleteConfirm(index, link);
-        });
-        
-        actionsDiv.appendChild(editBtn);
-        actionsDiv.appendChild(deleteBtn);
-        
-        // 组装链接卡片
-        linkContainer.appendChild(linkAnchor);
-        
-        // 只有登录后才显示操作按钮
+        // 操作按钮
         if (isLoggedIn) {
+          const actionsDiv = document.createElement('div');
+          actionsDiv.className = "link-actions";
+          
+          const editBtn = document.createElement('div');
+          editBtn.className = "edit-btn";
+          editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+          editBtn.title = "编辑链接";
+          editBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditForm(index, link);
+          });
+          
+          const deleteBtn = document.createElement('div');
+          deleteBtn.className = "delete-btn";
+          deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+          deleteBtn.title = "删除链接";
+          deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openDeleteConfirm(index, link);
+          });
+          
+          actionsDiv.appendChild(editBtn);
+          actionsDiv.appendChild(deleteBtn);
           linkContainer.appendChild(actionsDiv);
         }
         
+        linkContainer.appendChild(linkAnchor);
         linkGrid.appendChild(linkContainer);
       });
     }
     
-    // 处理搜索
     function handleSearch(e) {
-      const searchTerm = e.target.value;
-      renderAllLinks(searchTerm);
+      renderAllLinks(e.target.value);
     }
     
-    // 打开编辑表单
-    function openEditForm(index, link) {
-      // 检查登录状态
+    function openLoginForm() {
       if (!isLoggedIn) {
-        alert("请先登录才能编辑链接！");
+        document.getElementById('login-form-modal').style.display = 'block';
+      }
+    }
+    
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      
+      const password = document.getElementById('login-password').value;
+      
+      if (password === "admin123") {
+        isLoggedIn = true;
+        localStorage.setItem('quicknav-logged-in', 'true');
+        updateLoginStatus();
+        document.getElementById('login-form-modal').style.display = 'none';
+        document.getElementById('login-form').reset();
+        showNotification('登录成功！现在可以进行管理操作。', 'success');
+      } else {
+        showNotification('密码错误！', 'error');
+      }
+    }
+    
+    function logout() {
+      isLoggedIn = false;
+      localStorage.setItem('quicknav-logged-in', 'false');
+      updateLoginStatus();
+      showNotification('已退出登录', 'success');
+    }
+    
+    function openEditForm(index, link) {
+      if (!isLoggedIn) {
+        showNotification('请先登录才能编辑链接！', 'error');
         openLoginForm();
         return;
       }
       
-      const editForm = document.getElementById('edit-form');
-      
-      // 填充表单数据
+      document.getElementById('edit-form').style.display = 'block';
       document.getElementById('title').value = link.title;
       document.getElementById('url').value = link.url;
       document.getElementById('icon').value = link.icon;
       document.getElementById('edit-index').value = index;
-      
-      // 显示表单
-      editForm.style.display = 'block';
     }
     
-    // 打开删除确认对话框
-    function openDeleteConfirm(index, link) {
-      // 检查登录状态
-      if (!checkLoginForDelete()) return;
-      
-      linkToDelete = { index, link };
-      document.getElementById('delete-confirm').style.display = 'block';
-    }
-    
-    // 确认删除
-    function confirmDelete() {
-      if (linkToDelete) {
-        const { index } = linkToDelete;
-        
-        // 从数组中删除链接
-        links.splice(index, 1);
-        
-        // 保存到本地存储
-        localStorage.setItem('quicknav-links', JSON.stringify(links));
-        
-        // 重新渲染链接
-        renderAllLinks(document.getElementById('search-input').value);
-        
-        // 关闭确认对话框
-        document.getElementById('delete-confirm').style.display = 'none';
-        
-        // 重置删除跟踪
-        linkToDelete = null;
-        
-        // 显示成功消息
-        alert("链接已删除！");
-      }
-    }
-    
-    // 取消删除
-    function cancelDelete() {
-      document.getElementById('delete-confirm').style.display = 'none';
-      linkToDelete = null;
-    }
-    
-    // 切换编辑模式
     function toggleEditMode() {
       const editForm = document.getElementById('edit-form');
       const toggleEditBtn = document.getElementById('toggle-edit');
@@ -891,14 +1415,12 @@
         toggleEditBtn.textContent = '添加链接';
         toggleEditBtn.style.backgroundColor = 'var(--primary-color)';
       } else {
-        // 检查登录状态
         if (!isLoggedIn) {
-          alert("请先登录才能添加链接！");
+          showNotification('请先登录才能添加链接！', 'error');
           openLoginForm();
           return;
         }
         
-        // 清空表单
         document.getElementById('link-form').reset();
         document.getElementById('edit-index').value = '-1';
         
@@ -908,7 +1430,6 @@
       }
     }
     
-    // 处理表单提交
     function handleFormSubmit(e) {
       e.preventDefault();
       
@@ -918,68 +1439,116 @@
       const icon = document.getElementById('icon').value;
       const editIndex = parseInt(document.getElementById('edit-index').value);
       
-      // 密码验证
       if (password !== "admin123") {
-        alert("密码错误！");
+        showNotification('密码错误！', 'error');
         return;
       }
       
-      // 验证输入
       if (!title.trim()) {
-        alert("请输入链接标题！");
+        showNotification('请输入链接标题！', 'error');
         return;
       }
       
       if (!url.trim()) {
-        alert("请输入链接地址！");
+        showNotification('请输入链接地址！', 'error');
         return;
       }
       
-      // 确保URL有协议
       let finalUrl = url;
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         finalUrl = 'https://' + url;
       }
       
-      const newLink = { title: title.trim(), url: finalUrl, icon: icon.trim() || 'fas fa-link' };
+      const newLink = { 
+        title: title.trim(), 
+        url: finalUrl, 
+        icon: icon.trim() || 'fas fa-link' 
+      };
       
-      // 判断是编辑现有链接还是添加新链接
       if (editIndex >= 0 && editIndex < links.length) {
-        // 编辑现有链接
         links[editIndex] = newLink;
       } else {
-        // 添加新链接
         links.push(newLink);
       }
       
       // 保存到本地存储
       localStorage.setItem('quicknav-links', JSON.stringify(links));
       
-      // 重新渲染链接
+      // 如果云端启用，自动同步
+      if (CLOUDFLARE_CONFIG.enabled) {
+        setTimeout(uploadToCloud, 500);
+      }
+      
       renderAllLinks(document.getElementById('search-input').value);
       
-      // 关闭表单
       document.getElementById('edit-form').style.display = 'none';
       document.getElementById('toggle-edit').textContent = '添加链接';
       document.getElementById('toggle-edit').style.backgroundColor = 'var(--primary-color)';
-      
-      // 清空表单
       document.getElementById('link-form').reset();
       document.getElementById('edit-index').value = '-1';
       
-      alert("链接已保存！");
+      showNotification('链接已保存！', 'success');
     }
     
-    // 显示关于信息
+    function openDeleteConfirm(index, link) {
+      if (!isLoggedIn) {
+        showNotification('请先登录才能删除链接！', 'error');
+        openLoginForm();
+        return;
+      }
+      
+      linkToDelete = { index, link };
+      document.getElementById('delete-confirm').style.display = 'block';
+    }
+    
+    function confirmDelete() {
+      if (linkToDelete) {
+        const { index } = linkToDelete;
+        links.splice(index, 1);
+        localStorage.setItem('quicknav-links', JSON.stringify(links));
+        
+        // 如果云端启用，自动同步
+        if (CLOUDFLARE_CONFIG.enabled) {
+          setTimeout(uploadToCloud, 500);
+        }
+        
+        renderAllLinks(document.getElementById('search-input').value);
+        document.getElementById('delete-confirm').style.display = 'none';
+        linkToDelete = null;
+        showNotification('链接已删除！', 'success');
+      }
+    }
+    
+    function cancelDelete() {
+      document.getElementById('delete-confirm').style.display = 'none';
+      linkToDelete = null;
+    }
+    
+    // === 工具函数 ===
     function showAbout() {
-      alert("Quick Nav - 极简导航工具\n\n一个简洁、快速的个人导航页面，可以自由添加和管理常用网站链接。\n\n
-            ");
+      alert("Quick Nav - 极简导航工具\n\n" +
+            "一个简洁、快速的个人导航页面，可以自由添加和管理常用网站链接。\n\n" +
+            "🔒 管理密码：admin123\n" +
+            "☁️ 支持云端同步\n" +
+            "💾 本地存储 + 云端备份\n" +
+            "🔄 修改自动保存\n" +
+            "⚠️ 注意：清除浏览器缓存会丢失本地数据");
     }
     
-    // 显示帮助信息
     function showHelp() {
-      alert("使用帮助：\n\n1. 点击链接可以快速访问网站\n2. 点击右下角'添加链接'可以添加新链接（需要先登录）\n3. 登录后可以对链接进行编辑和删除\n4. 在搜索框中输入关键词可以快速查找链接\n5.");
+      alert("使用帮助：\n\n" +
+            "1. 点击链接可以快速访问网站\n" +
+            "2. 点击右下角'添加链接'可以添加新链接（需要先登录）\n" +
+            "3. 登录后可以对链接进行编辑和删除\n" +
+            "4. 在搜索框中输入关键词可以快速查找链接\n" +
+            "5. 管理密码：admin123\n\n" +
+            "📁 数据存储：\n" +
+            "- 本地：浏览器本地存储\n" +
+            "- 云端：Cloudflare Workers KV（需配置）");
     }
+    
+    // 页面加载
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
